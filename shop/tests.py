@@ -15,8 +15,7 @@ class PostTest(TestCase):
                 username='user',
                 email='user@email.com',
                 password='123')
-        
-    
+         
     def test_create_post_for_admin(self):
         self.client.login(username='admin', password='123')
         response = self.client.post(reverse('post_view'), {"title": "testTitle", "body": "testBody"})

@@ -21,8 +21,8 @@ class Post(models.Model):
 
         # floats have some rounding issues in python, so for now we just want one digit after .
         # we do it with the help of f strings in python 
-        # by the way, average can be None if this post has no rating in that case we return 0.0
-        return float(f'{average:.1f}') if average is not None else 0.0
+        # by the way, average can be None if this post has no rating in that case we return 0
+        return float(f'{average:.1f}') if average is not None else 0
 
 class Rating(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) 
