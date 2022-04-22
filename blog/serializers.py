@@ -2,17 +2,17 @@ from rest_framework import serializers
 from .models import Post, Rating
 
 class PostSerializer(serializers.ModelSerializer):
-    # this keeps the count of ratings for each post
-    voting_count = serializers.SerializerMethodField()
+    # this keeps the count of people who had rated for each post
+    voted_users_count = serializers.SerializerMethodField()
 
     # this keeps your vote, only if you voted, it wont exist if you didnt
     your_rating = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'body', 'rating', 'voting_count', 'your_rating']
+        fields = ['id', 'title', 'body', 'rating', 'voted_users_count', 'your_rating']
 
-    def get_voting_count(self, post):
+    def get_voted_users_count(self, post):
         return post.ratings.all().count()
 
     def get_your_rating(self, post):
@@ -29,7 +29,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     def to_representation(self, post):
         """
-            wee need to stop showing users vote on the posts he didnt vote for
+            we need to stop showing users vote on the posts he didnt vote for
             so with overriding this we delete 'your_rating' field from json output
         """
 
