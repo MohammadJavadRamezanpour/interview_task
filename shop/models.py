@@ -24,6 +24,9 @@ class Post(models.Model):
         # by the way, average can be None if this post has no rating in that case we return 0
         return float(f'{average:.1f}') if average is not None else 0
 
+    def __str__(self):
+        return self.title
+        
 class Rating(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) 
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="ratings")
