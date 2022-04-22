@@ -19,7 +19,7 @@ class Post(models.Model):
         # to be able to get the first index
         average = list(self.ratings.aggregate(Avg('score')).values())[0]
 
-        # floats have some rounding issues in python, so for now we just want one digit after .
+        # floats have some rounding issues in python, so for now we just want one digit after dot
         # we do it with the help of f strings in python 
         # by the way, average can be None if this post has no rating in that case we return 0
         return float(f'{average:.1f}') if average is not None else 0
