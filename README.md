@@ -54,7 +54,9 @@ Authorization: JWT <jwt_token>. this is the only way for users to authenticate, 
 to get token, post username and password to this route
 
 ## /auth/users/
-in this route you can register new normal users, GET request lists all available users and its just available for admin users, others can just send POST request and register a new user.
+in this route you can register new normal users, GET request lists all available users if user is admin, it will return current users info if user is not admin, and its not allowed for anonymouse users
+
+on the other hand POST request is available for everybody.
 
 to register a new user post email, username and password to this field
 
