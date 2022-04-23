@@ -10,7 +10,13 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'body', 'rating', 'voted_users_count', 'your_rating']
+        fields = ('id', 'title', 'body', 'rating', 'voted_users_count', 'your_rating')
+        extra_kwargs = {
+            # because you didnt say to show posts body, so we make it write_only.
+            # it doesnt make sense to me, but that's what I was asked for.
+            'body': {'write_only': True}
+        }
+
 
     def get_voted_users_count(self, post):
         return post.ratings.all().count()
