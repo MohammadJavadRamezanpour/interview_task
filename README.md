@@ -58,7 +58,7 @@ in this route you can register new normal users, GET request lists all available
 
 on the other hand POST request is available for everybody.
 
-to register a new user post email, username and password to this field
+to register a new user post email, username and password to this route
 
 ## current database records
 for test, i put two posts, and three users with these credentials: admin, 123 and user1, 123 and user2, 123. the first user is an admin user and others are just normal users, the admin user can login from /admin and auth/jwt/create/, but the normal user can just login from auth/jwt/create/ as i mentioned above.
