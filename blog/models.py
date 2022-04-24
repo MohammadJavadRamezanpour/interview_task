@@ -15,23 +15,14 @@ class Post(models.Model):
         """
 
         # we get this from the annotation in the view
-        if hasattr(self, '_rating'):
+        if hasattr(self, '_rating') and self._rating is not None:
             return self._rating
-        
-        # if for any reason you dont have _rating attribute in your queryset object, calculate it
-        # first we aggregate the average of scores to the queryset and then we get dict_values using .values()
-        # since dict_values are not subscriptable, we need to convert them into a list
-        # to be able to get the first index
-        average = list(self.ratings.aggregate(Avg('score')).values())[0]
-
-        # floats have some rounding issues in python, so for now we just want one digit after dot
-        # we do it with the help of f strings in python 
-        # by the way, average can be None if this post has no rating in that case we return 0
-        return float(f'{average:.1f}') if average is not None else 0
+        return 0
 
     def __str__(self):
         return self.title
-        
+
+
 class Rating(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) 
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="ratings")
@@ -40,4 +31,3 @@ class Rating(models.Model):
     class Meta:
         # we dont want a user to have two ratings on one post
         unique_together = ['user', 'post']
-
