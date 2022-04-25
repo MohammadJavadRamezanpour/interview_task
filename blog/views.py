@@ -24,9 +24,11 @@ class PostView(ListCreateAPIView):
     # we use prefetch_related for optimization
     # cause we assume we have a huge number of reviews for each post
     # prefetch_related does a separate lookup for each relationship, and performs the joining in python
-    # we annotate the _rating to the queryset and send it from model to the serializer
+    # we annotate the _rating and to the queryset and send it from model to the serializer
     # i think this is much more faster and optimized, because you said we have a huge number of reviews
-    queryset = Post.objects.prefetch_related('ratings').all().annotate(_rating=Avg('ratings__score'), _voted_users_count=Count('ratings'))
+    queryset = Post.objects.prefetch_related('ratings') \
+                           .all() \
+                           .annotate(_rating=Avg('ratings__score'), _voted_users_count=Count('ratings'))
     serializer_class = PostSerializer
     permission_classes = [IsAdminOrReadOnly] # admins can create post, users can just watch and rate
     
