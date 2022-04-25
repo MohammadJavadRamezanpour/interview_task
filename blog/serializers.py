@@ -2,9 +2,7 @@ from rest_framework import serializers
 from .models import Post, Rating
 
 class PostSerializer(serializers.ModelSerializer):
-    # this keeps the count of people who had rated for each post
-    voted_users_count = serializers.SerializerMethodField()
-
+    
     # this keeps your vote, only if you voted, it wont exist if you didnt
     your_rating = serializers.SerializerMethodField()
 
@@ -17,9 +15,6 @@ class PostSerializer(serializers.ModelSerializer):
             'body': {'write_only': True}
         }
 
-
-    def get_voted_users_count(self, post):
-        return post.ratings.all().count()
 
     def get_your_rating(self, post):
         try:

@@ -3,7 +3,7 @@ from .serializers import PostSerializer, RatingSerializer
 from rest_framework.generics import ListCreateAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsAdminOrReadOnly
-from django.db.models import Avg
+from django.db.models import Avg, Count
 
 
 # Create your views here.
@@ -26,7 +26,7 @@ class PostView(ListCreateAPIView):
     # prefetch_related does a separate lookup for each relationship, and performs the joining in python
     # we annotate the _rating to the queryset and send it from model to the serializer
     # i think this is much more faster and optimized, because you said we have a huge number of reviews
-    queryset = Post.objects.prefetch_related('ratings').all().annotate(_rating=Avg('ratings__score'))
+    queryset = Post.objects.prefetch_related('ratings').all().annotate(_rating=Avg('ratings__score'), _voted_users_count=Count('ratings'))
     serializer_class = PostSerializer
     permission_classes = [IsAdminOrReadOnly] # admins can create post, users can just watch and rate
     

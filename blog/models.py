@@ -19,6 +19,19 @@ class Post(models.Model):
             return self._rating
         return 0
 
+    
+    @property
+    def voted_users_count(self) -> int:
+        """
+            this works like rating property
+            it returns _voted_users_count
+            which was annotated in view
+        """
+
+        # we get this (_voted_users_count) from the annotation in the view
+        return self._voted_users_count
+        
+
     def __str__(self):
         return self.title
 
